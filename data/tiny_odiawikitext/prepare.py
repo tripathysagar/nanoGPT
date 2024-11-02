@@ -15,7 +15,7 @@ for url in urls:
   subprocess.run(['wget', '-q', '-P', './data_src/', url])
 
 
-tokenizer = Tokenizer.from_file('data/od_tokenizer_hf.json')
+tokenizer = Tokenizer.from_file('data_src/od_tokenizer_hf.json')
 
 
 val_ids = []
