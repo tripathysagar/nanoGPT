@@ -194,8 +194,10 @@ if block_size < model.config.block_size:
 model.to(device)
 
 # initialize a GradScaler. If enabled=False scaler is a no-op
-scaler = torch.cuda.amp.GradScaler(enabled=(dtype == 'float16'))
-
+scaler = torch.amp.GradScaler(device="cuda" if device == "cuda" else "cpu", 
+                              enabled=(dtype == 'float16')
+                              ) 
+torch.amp.GradScaler()
 # optimizer
 optimizer = model.configure_optimizers(weight_decay, learning_rate, (beta1, beta2), device_type)
 if init_from == 'resume':

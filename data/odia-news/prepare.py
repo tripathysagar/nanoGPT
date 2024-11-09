@@ -27,14 +27,14 @@ eot_token = tokenizer.token_to_id("<|endoftext|>")
 if __name__ == '__main__':
     # takes 54GB in huggingface .cache dir, about 8M documents (8,013,769)
     dataset = load_dataset("tripathysagar/odia-news", num_proc=num_proc_load_dataset).remove_columns('url')
-
+    dataset['val'] = dataset.pop('test')
     """
     DatasetDict({
         train: Dataset({
             features: ['text'],
             num_rows: 233501
         })
-        test: Dataset({
+        val: Dataset({
             features: ['text'],
             num_rows: 9730
         })
