@@ -32,6 +32,8 @@ from model import GPTConfig, GPT
 # -----------------------------------------------------------------------------
 # default config values designed to train a gpt2 (124M) on OpenWebText
 # I/O
+vocab_size = 50304
+
 out_dir = 'out'
 eval_interval = 2000
 log_interval = 1
@@ -138,7 +140,7 @@ best_val_loss = 1e9
 # attempt to derive vocab_size from the dataset
 meta_path = os.path.join(data_dir, 'meta.pkl')
 meta_vocab_size = None
-vocab_size = 50304
+
 if os.path.exists(meta_path):
     with open(meta_path, 'rb') as f:
         meta = pickle.load(f)

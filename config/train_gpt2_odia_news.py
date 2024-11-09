@@ -4,7 +4,7 @@
 
 wandb_log = True
 wandb_project = 'owt'
-wandb_run_name='gpt2-124M-od-news-mps'
+wandb_run_name='gpt2-124M-od-news-mps-t16*2'
 
 # these make the total batch size be ~0.5M
 # 16 batch size * 1024 block size * 5 gradaccum * 2 GPUs = 491,520
@@ -26,10 +26,10 @@ save_interval = 200
 weight_decay = 1e-1
 
 
-meta_vocab_size = 20_000
+vocab_size = 20_000
 dataset = 'odia-news'
 
 
 
 # for batch_size = 16
-warmup_iters = 20
+warmup_iters = 50
