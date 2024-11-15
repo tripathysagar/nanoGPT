@@ -1,7 +1,7 @@
 # saves the openwebtext dataset to a binary file for training. following was helpful:
 # https://github.com/HazyResearch/flash-attention/blob/main/training/src/datamodules/language_modeling_hf.py
 
-tok_url = 'https://raw.githubusercontent.com/tripathysagar/odia_text_prep/refs/heads/main/od_tokenizer_hf.json'
+tok_url = 'https://raw.githubusercontent.com/tripathysagar/odia_text_prep/refs/heads/main/tokenizer_bpe.json'
 import os
 from tqdm import tqdm
 import numpy as np

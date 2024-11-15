@@ -33,3 +33,4 @@ dataset = 'odia-news'
 
 # for batch_size = 16
 warmup_iters = 50
+# --max_iters=2200 
