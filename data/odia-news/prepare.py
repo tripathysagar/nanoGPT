@@ -10,7 +10,7 @@ import subprocess
 from datasets import load_dataset
 
 subprocess.run(['wget', '-q', '-P', './data_src/', tok_url])
-tokenizer = Tokenizer.from_file('data_src/od_tokenizer_hf.json') # huggingface datasets
+tokenizer = Tokenizer.from_file('data_src/tokenizer_bpe.json') # huggingface datasets
 
 # number of workers in .map() call
 # good number to use is ~order number of cpu cores // 2
