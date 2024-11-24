@@ -329,29 +329,37 @@ class GPT(nn.Module):
 
         return idx
     
+
     @classmethod
-    def from_hub(cls, out_dir:str):
-      ckpt_path = os.path.join(out_dir, 'ckpt.pt')
-      checkpoint = torch.load(ckpt_path, map_location="cpu")
-      checkpoint_model_args = checkpoint['model_args']
-      model_args = {}
-      # force these config attributes to be equal otherwise we can't even resume training
-      # the rest of the attributes (e.g. dropout) can stay as desired from command line
-      for k in ['n_layer', 'n_head', 'n_embd', 'block_size', 'bias', 'vocab_size']:
-          model_args[k] = checkpoint_model_args[k]
-      # create the model
-      gptconf = GPTConfig(**model_args)
+    def from_file(cls, ckpt_path, device="cpu"):
+        #ckpt_path = os.path.join(out_dir, 'ckpt.pt')
+        checkpoint = torch.load(ckpt_path, map_location=device)
+        model_args = checkpoint['model_args']
 
-      print(f"{gptconf=}")
-      model = GPT(gptconf)
-      state_dict = checkpoint['model']
+        gptconf = GPTConfig(**model_args)
+        model = GPT(gptconf)
+        state_dict = checkpoint['model']
+        unwanted_prefix = '_orig_mod.'
 
-      # fix the keys of the state dictionary :(
-      # honestly no idea how checkpoints sometimes get this prefix, have to debug more
-      unwanted_prefix = '_orig_mod.'
-      for k,v in list(state_dict.items()):
-          if k.startswith(unwanted_prefix):
-              state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
-      model.load_state_dict(state_dict)
+        for k,v in list(state_dict.items()):
+            if k.startswith(unwanted_prefix):
+                state_dict[k[len(unwanted_prefix):]] = state_dict.pop(k)
+        model.load_state_dict(state_dict)
 
+        return model, model_args
+    
+    @classmethod
+    def save_model_from_file(cls, ckpt_path, out_dir, device="cpu"):
+        model, model_args = cls.from_file(ckpt_path, device)
+        checkpoint = {
+                        'model': model.state_dict(),
+                        'model_args': model_args,
+                    }
+        print(f"saving checkpoint to {out_dir}")
+        torch.save(checkpoint, os.path.join(out_dir, 'model.pt'))
+
+
+    @classmethod
+    def from_hub(cls, ckpt_path, device='cpu'):
+      model, _ = cls.from_file(ckpt_path, device=device)
       return model
