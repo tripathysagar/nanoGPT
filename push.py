@@ -13,7 +13,7 @@ model_fn = 'out/model.pt'
 token_fn = 'data_src/tokenizer_bpe.json'
 
 def push_to_hub(HF_TOKEN):
-    if not ckpt_path.exist() or HF_TOKEN == None:
+    if not ckpt_path.exists() or HF_TOKEN == None:
         sys.exit()
 
     GPT.save_model_from_file(ckpt_path=ckpt_path, out_dir='out/')
